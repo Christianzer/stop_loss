@@ -27,7 +27,7 @@
         </div>
     @endif
 
-    <form action="{{isset($portefeuille) ? route("portefeuille.update",$portefeuille->ID) : route("portefeuille.create")}}" method="post">
+    <form action="{{isset($portefeuille) ? route("portefeuille.update",$portefeuille->ID_portefeuille) : route("portefeuille.create")}}" method="post">
         @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -107,9 +107,9 @@
                     @foreach($all_portefeuille as $item)
                         <tr>
                             <td align="center"><input type="checkbox" id="cocher[]" required name="cocher[]"
-                                                      value="{{$item->ID}}"></td>
+                                                      value="{{$item->ID_portefeuille}}"></td>
                             <td>
-                                <a href="{{route('portefeuille.modifier',$item->ID)}}">
+                                <a href="{{route('portefeuille.modifier',$item->ID_portefeuille)}}">
                                     {{$item->Nom_portefeuille}}
                                 </a>
                             </td>

@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\DB;
 class PortefeuilleControllers extends Controller
 {
     //
-    public function portefeuille(){
+    public function index(){
         $all_portefeuille = DB::table("portefeuilles")->where('ID_utilisateur', '=', 1)->select("*")->get();
         return view('portefeuille',compact('all_portefeuille'));
     }
 
     public function portefeuille_edit($id){
         $all_portefeuille = DB::table("portefeuilles")->where('ID_utilisateur', '=', 1)->select("*")->get();
-        $portefeuille = DB::table("portefeuilles")->where('ID','=',$id)->select("*")->first();
+        $portefeuille = DB::table("portefeuilles")->where('ID_portefeuille','=',$id)->select("*")->first();
         return view('portefeuille',compact('all_portefeuille','portefeuille'));
     }
 
@@ -43,7 +43,7 @@ class PortefeuilleControllers extends Controller
         $nom_portefeuille = $request->portefeuille;
         $devise = $request->devise;
         $solde = $request->solde;
-        $insert = DB::table('portefeuilles')->where('ID','=',$id)
+        $insert = DB::table('portefeuilles')->where('ID_portefeuille','=',$id)
             ->update([
             'ID_utilisateur' => 1,
             'Nom_portefeuille' => $nom_portefeuille,
@@ -63,14 +63,11 @@ class PortefeuilleControllers extends Controller
     public function portefeuille_delete(Request $request){
         $cocher = $request->cocher;
         foreach ($cocher as $item){
-            DB::table('portefeuilles')->where('ID',$item)
+            DB::table('portefeuilles')->where('ID_portefeuille',$item)
                 ->delete();
         }
         Session()->flash('success',"Suppression effectuée avec success.");
         return redirect()->back();
     }
 
-    public function position(){
-        return view('position');
-    }
 }
