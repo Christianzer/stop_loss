@@ -2,9 +2,12 @@
 
 @section('contenu')
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 text-uppercase font-weight-bold">TABLEAU DE BORD</h1>
-    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item text-uppercase">STOP LOSS APK</li>
+            <li class="breadcrumb-item text-primary text-uppercase" aria-current="page">TABLEAU DE BORD</li>
+        </ol>
+    </nav>
 
 
 @endsection

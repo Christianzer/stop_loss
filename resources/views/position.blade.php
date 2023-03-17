@@ -4,8 +4,9 @@
     <!-- Page Heading -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item text-uppercase"><a href="#">POSITION</a></li>
-            <li class="breadcrumb-item active text-uppercase" aria-current="page">{{isset($position) ? 'Modifier POSITION' : 'Ajouter POSITION'}}</li>
+            <li class="breadcrumb-item text-uppercase">STOP LOSS</li>
+            <li class="breadcrumb-item text-uppercase">POSITION</li>
+            <li class="breadcrumb-item active text-uppercase text-primary" aria-current="page">{{isset($position) ? 'Modifier POSITION' : 'Ajouter POSITION'}}</li>
         </ol>
     </nav>
 
