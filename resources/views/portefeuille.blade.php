@@ -2,15 +2,36 @@
 
 @section('contenu')
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 text-uppercase font-weight-bold">PORTEFEUILLE</h1>
-    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item text-uppercase"><a href="#">PORTEFEUILLE</a></li>
+            <li class="breadcrumb-item active text-uppercase" aria-current="page">{{isset($portefeuille) ? 'Modifier PORTEFEUILLE' : 'Ajouter PORTEFEUILLE'}}</li>
+        </ol>
+    </nav>
 
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{$message}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
-    <form action="" method="post">
+    @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{$message}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    <form action="{{isset($portefeuille) ? route("portefeuille.update",$portefeuille->ID) : route("portefeuille.create")}}" method="post">
+        @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h5 class="m-0 font-weight-bold text-uppercase text-primary">Informations générales portefeuille</h5>
+                <h6 class="m-0 font-weight-bold text-uppercase text-primary">Informations générales portefeuille</h6>
             </div>
             <div class="container-fluid mt-3">
                 <div class="row ">
@@ -18,7 +39,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="etablissementId" class="font-weight-bold text-uppercase">Nom portefeuille</label>
-                            <input class="form-control" type="text" name="portefeuille" required value="">
+                            <input class="form-control text-uppercase font-weight-bold" type="text" name="portefeuille" required value="{{isset($portefeuille) ? $portefeuille->Nom_portefeuille : ''}}">
 
                         </div>
 
@@ -34,13 +55,13 @@
                     <div class="col-md-4">
                         <div class="form-group" id="content_date">
                             <label for="content_date" class="font-weight-bold text-uppercase">Devise</label>
-                            <input class="form-control" type="text" name="devise" required value="">
+                            <input class="form-control text-uppercase font-weight-bold" type="text" name="devise" required value="{{isset($portefeuille) ? $portefeuille->Devise_base : ''}}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group" id="content_date">
                             <label for="content_date" class="font-weight-bold text-uppercase">Solde</label>
-                            <input class="form-control" type="number" name="solde" value="">
+                            <input class="form-control text-uppercase font-weight-bold" type="number" name="solde" value="{{isset($portefeuille) ? $portefeuille->Solde : ''}}">
                         </div>
                     </div>
                 </div>
@@ -50,9 +71,9 @@
 
 
                 <div align="right">
-                    <a href="{{route('portefeuille')}}" class="btn btn-success">Retour</a>
-                    <button  class="btn btn-info" type="reset">Annuler</button>
-                    <button id="demande_enregistrer" class="btn btn-primary" type="submit">{{isset($portefeuille) ? 'Modifier' : 'Enregistrer'}}</button>
+                    <a href="{{route('portefeuille')}}" class="btn btn-danger text-uppercase">Retour</a>
+                    <button  class="btn btn-warning text-uppercase" type="reset">Annuler</button>
+                    <button id="demande_enregistrer" class="btn btn-primary text-uppercase"  type="submit">{{isset($portefeuille) ? 'Modifier' : 'Enregistrer'}}</button>
                 </div>
                 <br>
             </div>
@@ -61,7 +82,8 @@
 
     </form>
 
-    <form method="post">
+    <form method="post" action="{{route('portefeuille.delete')}}">
+        @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h5 class="m-0 font-weight-bold text-uppercase text-primary">Listes des portefeuilles</h5>
@@ -82,13 +104,21 @@
 
 
                     <tbody class="text-black text-uppercase font-weight-bold">
-                    <tr>
-                        <td align="center"><input type="checkbox" id="cocher[]" name="cocher[]"
-                                                  value=""></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @foreach($all_portefeuille as $item)
+                        <tr>
+                            <td align="center"><input type="checkbox" id="cocher[]" required name="cocher[]"
+                                                      value="{{$item->ID}}"></td>
+                            <td>
+                                <a href="{{route('portefeuille.modifier',$item->ID)}}">
+                                    {{$item->Nom_portefeuille}}
+                                </a>
+                            </td>
+                            <td>{{$item->Devise_base}}</td>
+                            <td>{{number_format($item->Solde,'0','.',' ')}}</td>
+                        </tr>
+
+
+                    @endforeach
 
                     </tbody>
                 </table>
